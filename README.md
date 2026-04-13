@@ -55,9 +55,3 @@ This skill incorporates content from:
 - [ioBroker AI Developer Guide](https://github.com/Jey-Cee/iobroker-ai-developer-guide)
 - [DrozmotiX ioBroker Copilot Instructions](https://github.com/DrozmotiX/ioBroker-Copilot-Instructions)
 
-## Original File (Backup)
-
-The original monolithic skill is preserved at:
-`skill/iobroker-adapter-development-promt.md` (~1,160 lines, 28 sections)
-
-
