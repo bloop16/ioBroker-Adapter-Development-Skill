@@ -1,4 +1,5 @@
 # ioBroker Adapter Development Skill
+(Developed with AI)
 
 A modular skill system for developing ioBroker adapters — compatible with both **Claude Code** (SKILL.md) and **VS Code Copilot** (.md with YAML frontmatter). Enforces best practices, naming conventions, object hierarchy, and repochecker compliance.
 
