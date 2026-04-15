@@ -5,6 +5,14 @@ applyTo: "**/io-package.json,**/package.json,**/README.md"
 
 # ioBroker: Submission, Checklist & Repository Workflow
 
+## Source-Of-Truth Rule
+
+Before final recommendations, verify against these canonical sources:
+- https://github.com/ioBroker/ioBroker.repositories/blob/master/REVIEW_CHECKLIST.md
+- https://github.com/ioBroker/ioBroker.repochecker
+
+Do not invent check IDs, version floors, or workflow steps.
+
 ## 26. Pre-Submission Checklist
 
 Run `npx @iobroker/repochecker <repo-url>` and fix **all** errors before submitting a PR.
@@ -22,9 +30,9 @@ Run `npx @iobroker/repochecker <repo-url>` and fix **all** errors before submitt
 8. ✅ `type`, `tier`, `connectionType`, `dataSource`, `authors` set in `io-package.json`
 9. ✅ `js-controller >= 6.0.11` dependency declared
 10. ✅ `admin >= 7.6.20` global dependency declared
-11. ✅ Node.js `>= 20` in `engines`
+11. ✅ Node.js `>= 20` in `engines` (verify current minimum versions with repochecker before release)
 12. ✅ Changelog in README.md (not `CHANGELOG.md`); older entries in `CHANGELOG_OLD.md`
-13. ✅ README has no `## Installation` section (unless special install needed) [S6014]
+13. ✅ README install guidance avoids forbidden install patterns checked by [E6012]/[E6013]
 
 ### Code Quality
 14. ✅ State roles are specific — not generic `"state"`
@@ -53,6 +61,9 @@ Run `npx @iobroker/repochecker <repo-url>` and fix **all** errors before submitt
 31. ✅ Built-in Node.js modules use `node:` prefix (`node:fs`, `node:path`) [S5043]
 32. ✅ GitHub Actions CI/CD (`test-and-release.yml`) configured correctly
 33. ✅ If using trusted publishing: `contents: write` + `id-token: write` set, no `npm-token` [W3018/W3019]
+34. ✅ `.vscode/settings.json` includes JSON schema for `io-package.json` [W4040]
+35. ✅ `.vscode/settings.json` includes jsonConfig schemas for `admin/jsonConfig.json`, `admin/jsonCustom.json`, `admin/jsonTab.json` [W4042]
+36. ✅ If `package.json` uses `"files"`, `.npmignore` is removed [W9501]
 
 ---
 
@@ -68,13 +79,14 @@ You must create an npm account first if you don't have one.
 
 ### Step 2: Add `iobroker` Organisation as npm Owner
 
-This is **required** by the ioBroker repository. The organisation is granted publish rights only for emergencies:
+This is **required** by the ioBroker repository. The organisation is granted publish rights only for emergencies.
+Verify the current owner account in the official checklist before running the command.
 
 ```bash
 npm owner add bluefox iobroker.adaptername
 ```
 
-> Wait 1–2 days for `bluefox` to accept the invite. If the invite expires, send it again.
+> Example as of 2026-04. Verify the currently required owner account in the official checklist before executing.
 
 ### Step 3: Add to the Latest Repository
 
@@ -155,12 +167,15 @@ npm run addToStable -- --name adaptername --version 1.0.0
 | `common.schedule` set on daemon adapter | Remove or leave empty |
 | Missing `tier` field | Add `"tier": 3` (or appropriate level) |
 | i18n not in npm package | Check `"files"` / `.npmignore` includes `admin/i18n` |
+| `"files"` in `package.json` and `.npmignore` committed | Remove `.npmignore` [W9501] |
 | Fixed version deps (`"1.2.3"`) | Use ranges (`"^1.2.3"`) |
 | `createState()` / `createChannel()` / `createDevice()` | `setObjectNotExistsAsync()` [W5033] |
 | `deleteState()` / `deleteChannel()` / `deleteDevice()` | `delObjectAsync()` [W5033] |
 | `import fs from 'fs'` | `import * as fs from 'node:fs'` [S5043] |
 | Package used but not in `dependencies` | Add to `package.json` `dependencies` [W5042] |
 | jsonConfig present but `adminUI.config` missing | Set `"adminUI": { "config": "json" }` [W5046] |
+| Missing VS Code schema for `io-package.json` | Add `json.schemas` entry for `io-package.json` [W4040] |
+| Missing VS Code schema for jsonConfig files | Add `json.schemas` entry for `admin/jsonConfig.json`, `admin/jsonCustom.json`, `admin/jsonTab.json` [W4042] |
 | `CHANGELOG.md` in repo root | Move entries to README.md + CHANGELOG_OLD.md |
 | `npm-token` with trusted publishing | Remove `npm-token` for `testing-action-deploy@v1` [W3019] |
 

@@ -1,6 +1,6 @@
 ---
-description: "ioBroker adapter tooling: error handling, logging, TypeScript/JavaScript configuration, ESLint, Prettier, and testing setup. Use when setting up build tools or writing logging/error handling code."
-applyTo: "**/*.ts,**/*.js,**/tsconfig*.json,**/eslint.config*,**/package.json"
+description: "ioBroker adapter tooling: error handling, logging, TypeScript/JavaScript configuration, VS Code JSON schemas, ESLint, Prettier, and testing setup. Use when setting up build tools or writing logging/error handling code."
+applyTo: "**/*.ts,**/*.js,**/tsconfig*.json,**/eslint.config*,**/package.json,**/.vscode/settings.json"
 ---
 
 # ioBroker: Error Handling, Logging, TypeScript & Testing
@@ -115,7 +115,7 @@ await this.registerNotification("myadapter", "updates", "Device X has a firmware
 
 ---
 
-## 18. TypeScript & JavaScript Configuration
+## 17. TypeScript & JavaScript Configuration
 
 ### TypeScript Adapter — Three tsconfig Files
 
@@ -171,9 +171,31 @@ Typical `tsconfig.build.json`:
 }
 ```
 
+### VS Code JSON Schemas (`.vscode/settings.json`)
+
+Add explicit schema mappings to avoid repochecker warnings [W4040/W4042]:
+
+```json
+{
+    "json.schemas": [
+        {
+            "fileMatch": ["io-package.json"],
+            "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/master/schemas/io-package.json"
+        },
+        {
+            "fileMatch": ["admin/jsonConfig.json", "admin/jsonCustom.json", "admin/jsonTab.json"],
+            "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json"
+        }
+    ]
+}
+```
+
+Use exactly these paths in `fileMatch` and the `ioBroker.admin` schema URL for jsonConfig files.
+For projects that use JSON5, add corresponding `admin/jsonConfig.json5`, `admin/jsonCustom.json5`, and `admin/jsonTab.json5` entries.
+
 ---
 
-## 19. ESLint & Prettier
+## 18. ESLint & Prettier
 
 Use ioBroker's shared configs — do not create custom configs:
 
@@ -191,7 +213,7 @@ export default { ...prettierConfig };
 
 ---
 
-## 20. Testing
+## 19. Testing
 
 ### Standard Framework: `@iobroker/testing` + Mocha
 
@@ -223,7 +245,8 @@ tests.integration(path.join(__dirname, ".."), {
 ### GitHub Actions Requirements
 
 - **Must** use the standard `test-and-release.yml` workflow from the Adapter Creator.
-- The `deploy` job must depend on `check-and-lint` and `adapter-tests` jobs [E3016].
+- The `deploy` job must depend on your check/test jobs [E3016].
+- In the standard Adapter Creator workflow, these jobs are typically `check-and-lint` and `adapter-tests`.
 
 **If using trusted publishing (`ioBroker/testing-action-deploy@v1`)**:
 - Set job-level permissions: `contents: write` and `id-token: write` [W3018]

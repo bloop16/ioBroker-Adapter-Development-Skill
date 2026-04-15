@@ -138,7 +138,7 @@ applyTo: "**/io-package.json,**/package.json,**/.github/**,**/.npmignore"
 - Must include changelog entries (see below)
 - **Do not** include `npm install iobroker.*` instructions [E6012]
 - **Do not** include `iobroker url ...` GitHub install instructions [E6013]
-- **Do not** include an `## Installation` section unless special setup is required [S6014]
+- Keep installation wording minimal and aligned with current repochecker checks.
 - Copyright year must match the current or latest commit year
 - Multiple copyright lines must use trailing two spaces, not blank lines [W6011]
 
@@ -151,6 +151,12 @@ applyTo: "**/io-package.json,**/package.json,**/.github/**,**/.npmignore"
 | README changelog exceeds 20 entries, no `CHANGELOG_OLD.md` | Move older entries to `CHANGELOG_OLD.md` [W6019] |
 
 **Correct pattern**: Recent changelog entries in `README.md`, older entries in `CHANGELOG_OLD.md`.
+
+### Installation Text in README
+
+- Keep README install guidance aligned with current repochecker checks.
+- Forbidden patterns are enforced via [E6012] and [E6013] (direct npm/GitHub install instructions).
+- Do not rely on older [S6014] behavior. The check changed over time in repochecker releases.
 
 ---
 
@@ -174,6 +180,8 @@ applyTo: "**/io-package.json,**/package.json,**/.github/**,**/.npmignore"
     }
 }
 ```
+
+Version floors (`js-controller`, `admin`, `node`) may change over time. Verify them against current repochecker output before release.
 
 ### Dependency Rules
 
@@ -201,9 +209,14 @@ ioBroker uses [Semantic Versioning](https://semver.org/):
 Start at `0.1.0`. For any breaking change, increment `y`. For patches and minor additions, increment `z`.  
 Once thoroughly tested in the `latest` repository, promote to `1.0.0` and request addition to `stable`.
 
-### `.npmignore` Requirements
+### `.npmignore` and `"files"` Rules
 
-`.npmignore` **must** exist [repochecker requirement], OR use `"files"` in `package.json` to whitelist.
+Choose exactly one packaging strategy:
+
+- Use `"files"` in `package.json` and **remove** `.npmignore` to avoid [W9501].
+- Or use `.npmignore` without a `"files"` whitelist.
+
+If `"files"` is present, a committed `.npmignore` triggers [W9501] (".npmignore found but files is used").
 
 Ensure these are **included** in the published package:
 - `admin/i18n/` [E9506, E9507]
@@ -265,7 +278,7 @@ updates:
     open-pull-requests-limit: 15  # Must be at least 15 [S8908]
 ```
 
-> ⚠️ The repochecker example uses `cooldown: { default: 7 }` which is **wrong** — GitHub's schema validator requires `default-days`.
+> Verify Dependabot syntax against current GitHub documentation and repochecker output. Use `default-days` for the `cooldown` key.
 
 ### VS Code Settings (recommended)
 
@@ -276,10 +289,16 @@ updates:
         {
             "fileMatch": ["io-package.json"],
             "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/master/schemas/io-package.json"
+        },
+        {
+            "fileMatch": ["admin/jsonConfig.json", "admin/jsonCustom.json", "admin/jsonTab.json"],
+            "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json"
         }
     ]
 }
 ```
+
+If your project uses JSON5 config files, add matching `*.json5` file patterns as well.
 
 ---
 

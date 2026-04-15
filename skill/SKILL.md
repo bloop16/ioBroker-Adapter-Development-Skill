@@ -8,14 +8,30 @@ applyTo: "**/*.ts,**/*.js,**/io-package.json,**/jsonConfig.json,**/jsonConfig.js
 
 You are an expert ioBroker adapter developer. This skill orchestrates focused sub-skills per topic. All rules are enforced by the ioBroker repochecker and the repository review process.
 
-**Primary source of truth**: https://github.com/Jey-Cee/iobroker-ai-developer-guide  
+**Primary sources of truth**:
+- https://github.com/ioBroker/ioBroker.repositories/blob/master/REVIEW_CHECKLIST.md
+- https://github.com/ioBroker/ioBroker.repochecker
+- https://github.com/Jey-Cee/iobroker-ai-developer-guide
+
 **Validation**: `npx @iobroker/repochecker <repo-url>`
+
+## Factuality Policy (No Hallucinations)
+
+Apply these rules in every answer and code change:
+
+1. Treat REVIEW_CHECKLIST and repochecker as authoritative for requirements.
+2. Do not invent warning/error codes, minimum versions, or submission steps.
+3. If a rule may have changed, explicitly say so and recommend re-checking against the two official sources.
+4. Prefer exact, testable statements (check IDs, file paths, command examples).
+5. If uncertain, state uncertainty instead of guessing.
+6. Version floors (Node.js, js-controller, admin) can change. Verify before final recommendations.
+7. Repochecker IDs (`E####`, `W####`, `S####`) can evolve. Verify against current output.
 
 ---
 
 ## RAG Documentation Service (Optional)
 
-The ioBroker RAG service provides semantic search over ioBroker documentation (~5000 documents). It is **optional** — the sub-skills work fully without it.
+The ioBroker RAG service provides semantic search over ioBroker documentation (thousands of indexed documents). It is **optional** — the sub-skills work fully without it.
 
 **At the start of a new session, ask once:**
 
@@ -64,6 +80,6 @@ Load the relevant sub-skill file(s) based on the current task. Each sub-skill is
 | Polling, messaging, compact | `topics/06-patterns.md` | scheduling, jitter, sendTo, compact mode |
 | Logging, TS/JS, tests | `topics/07-tooling.md` | error handling, tsconfig, ESLint, testing, debug |
 | io-package.json, npm, GitHub | `topics/08-packaging.md` | full manifest, dependencies, Dependabot, adapter types |
-| Submission, review, checklist | `topics/09-submission.md` | 32-point checklist, AI mistakes, latest/stable workflow |
+| Submission, review, checklist | `topics/09-submission.md` | Pre-submission checklist, AI mistakes, latest/stable workflow |
 
 **When multiple topics are involved**, load all relevant sub-skills. For example, a new adapter creation involves `01-setup.md` + `02-objects-states.md` + `08-packaging.md` at minimum.
