@@ -300,4 +300,5 @@ VS Code launch configuration:
 
 - [03-lifecycle.md](03-lifecycle.md) — Lifecycle and cleanup
 - [06-patterns.md](06-patterns.md) — Error handling in polling
+- [10-dev-server.md](10-dev-server.md) — Preferred live runtime tests after automated checks
 - [08-packaging.md](08-packaging.md) — package.json dependency rules

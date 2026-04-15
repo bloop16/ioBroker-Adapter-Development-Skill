@@ -114,6 +114,7 @@ applyTo: "**/io-package.json,**/package.json,**/.github/**,**/.npmignore"
 - Maximum **7** entries (repochecker warning if more).
 - Every version listed must be published on npm.
 - Translate into all supported languages.
+- For normal feature/fix PRs, do not pre-add future `news`/version entries; release flow should create them.
 
 ### Native Config Defaults
 
@@ -156,7 +157,7 @@ applyTo: "**/io-package.json,**/package.json,**/.github/**,**/.npmignore"
 
 - Keep README install guidance aligned with current repochecker checks.
 - Forbidden patterns are enforced via [E6012] and [E6013] (direct npm/GitHub install instructions).
-- Do not rely on older [S6014] behavior. The check changed over time in repochecker releases.
+- Prefer current repochecker output over historical check behavior.
 
 ---
 
@@ -182,6 +183,8 @@ applyTo: "**/io-package.json,**/package.json,**/.github/**,**/.npmignore"
 ```
 
 Version floors (`js-controller`, `admin`, `node`) may change over time. Verify them against current repochecker output before release.
+
+For normal PRs, keep the current released version unchanged. Version bumps belong to release workflow.
 
 ### Dependency Rules
 
@@ -323,3 +326,4 @@ Also remove unused `www/` and `docs/` directories.
 - [04-admin-ui.md](04-admin-ui.md) — JSONConfig and i18n packaging
 - [05-security.md](05-security.md) — encryptedNative in io-package.json
 - [09-submission.md](09-submission.md) — Repository submission workflow
+- [11-pr-checklist.md](11-pr-checklist.md) — PR do-not-change rules and fork-specific checks

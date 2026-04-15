@@ -81,5 +81,36 @@ Load the relevant sub-skill file(s) based on the current task. Each sub-skill is
 | Logging, TS/JS, tests | `topics/07-tooling.md` | error handling, tsconfig, ESLint, testing, debug |
 | io-package.json, npm, GitHub | `topics/08-packaging.md` | full manifest, dependencies, Dependabot, adapter types |
 | Submission, review, checklist | `topics/09-submission.md` | Pre-submission checklist, AI mistakes, latest/stable workflow |
+| Dev environment with dev-server | `topics/10-dev-server.md` | setup, watch/debug workflow, profiles, live testing |
+| Pull request quality gate | `topics/11-pr-checklist.md` | PR do-not-change rules, fork findings, branch policy |
 
 **When multiple topics are involved**, load all relevant sub-skills. For example, a new adapter creation involves `01-setup.md` + `02-objects-states.md` + `08-packaging.md` at minimum.
+
+## Post-Test Response Rule
+
+After test execution guidance for code changes (`npm test`, package/unit/integration tests), add the next practical live validation step when applicable:
+
+1. Recommend testing with `@iobroker/dev-server` instead of a normal productive ioBroker instance.
+2. Ask the user to run a live cycle in dev-server (`setup` once, then `watch` or `debug`) to verify runtime behavior, reconnects, object updates, and Admin UI behavior.
+3. Mention that productive instances should only be used after successful dev-server validation.
+
+## Compact Master Checklist (Token-Efficient)
+
+Use this as a short quality gate in normal responses. Do not print long checklists unless explicitly requested.
+
+1. **Source check**: Rules validated against REVIEW_CHECKLIST + current repochecker behavior.
+2. **Core safety**: No `process.exit()`, no native timers, `!state.ack` handling in commands.
+3. **Objects/states**: Correct hierarchy, specific roles, IDs sanitized, `setObjectNotExistsAsync()` used.
+4. **Security**: Secrets handled with `encryptedNative` + `protectedNative`.
+5. **Quality checks**: `build`/`test`/`lint` status is explicit.
+6. **Live runtime**: For code changes, recommend dev-server live validation after automated tests (`watch`/`debug`).
+7. **PR guardrails**: No premature version/news bumps in normal PRs; changelog stays under `WORK IN PROGRESS`.
+8. **Release flow**: Submit/release steps only after checks above are green.
+
+### Expansion Rule
+
+- Default output: short status (`done`, `open`, `next step`) per checkpoint only.
+- Expand to full topic checklists only when:
+	- user asks for full review/checklist,
+	- a PR/submission workflow is requested,
+	- repochecker or CI reports failures.

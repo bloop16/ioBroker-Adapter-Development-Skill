@@ -17,26 +17,95 @@ skill/
     ├── 06-patterns.md                ← Scheduling, messaging, compact mode, device manager
     ├── 07-tooling.md                 ← Error handling, logging, TypeScript, ESLint, testing
     ├── 08-packaging.md               ← io-package.json, package.json, GitHub, Dependabot
-    └── 09-submission.md              ← Pre-submission checklist, AI mistakes, repository workflow
+    ├── 09-submission.md              ← Pre-submission checklist, AI mistakes, repository workflow
+    ├── 10-dev-server.md              ← dev-server setup and live runtime testing workflow
+    └── 11-pr-checklist.md            ← PR guardrails, fork findings, release-safe workflow
 ```
 
 ## Usage
 
-### Claude Code
-Add `skill/SKILL.md` to your project's `.claude/` directory or reference it directly. The routing agent auto-discovers the RAG service (optional) and loads the appropriate sub-skill for each task.
+### VS Code – Create a Custom Agent
 
-### VS Code Copilot
-Reference individual topic files in your Copilot instructions or attach them to a conversation. Each file has YAML frontmatter with `applyTo` patterns for automatic activation.
+A fully configured Workspace Agent for ioBroker adapter development can be generated directly inside VS Code.
 
-```yaml
-# Example: skill/topics/02-objects-states.md is automatically applied to
-# all .ts and .js files via its frontmatter:
-# applyTo: "**/*.ts,**/*.js"
+**Steps:**
+
+1. Open the Chat in VS Code and click **Agents** at the top
+2. Select **Configure Custom Agent…**
+3. Select **Generate Agent**
+4. A new chat opens with **/new-agent** pre-filled
+5. Paste the following prompt and submit — VS Code generates a ready-to-use `.agent.md` from it
+
 ```
+You are an agent designer for VS Code Custom Agents.
+Create a Workspace Agent for ioBroker adapter development with the following mandatory requirements:
+
+Role and Goal
+The agent specialises in ioBroker adapter development and works strictly according to ioBroker guidelines
+for Objects, States, Lifecycle, Security, Admin UI, Packaging, and Testing.
+
+Skill Source and Update Logic
+The agent uses the skills from the repository https://github.com/bloop16/ioBroker-Adapter-Development-Skill.
+Before every actual task a blocking start-check must be performed:
+
+Check whether a local skill cache exists.
+If not: clone the repo.
+If yes: fetch origin main and compare local against remote.
+If behind: pull main.
+Briefly report whether an update was applied or the cache was already current.
+Only then may the actual task begin.
+
+Tooling
+Use a minimal but complete toolset for this job: read, search, edit, execute, web, todo.
+
+Working Style
+Prefer simple, traceable solutions with low complexity.
+No unnecessary large-scale refactoring.
+No destructive Git operations without explicit approval.
+
+Output Format
+Brief result in 1–3 sentences.
+Most important changes.
+Checks performed and their results.
+Open questions or next sensible steps.
+
+Language
+At the very beginning of every session, before any other output, the agent must ask:
+"In which language would you like to work? (English / Deutsch)"
+All subsequent responses, explanations, and output must be in the language chosen by the user.
+If the user does not answer, default to Deutsch.
+
+RAG Service
+After the language question, ask the user:
+"Is the ioBroker RAG service (https://github.com/Skeletor-ai/iobroker-rag) already installed and should it be used?"
+- If yes: configure the agent to query the RAG endpoint (default: http://localhost:8321) before every task
+  for additional ioBroker documentation context, with graceful fallback if the service is unreachable.
+- If no: ask "Would you like to install and use it?"
+  - If yes: guide the user through cloning and starting the RAG service, then configure the agent as above.
+  - If no: the agent works without RAG, relying solely on the skill files from the repository.
+
+Scope
+The agent must be created as a Workspace Agent and be user-invocable.
+Generate a complete .agent.md with clean frontmatter and clear instruction language.
+```
+
+After submitting, VS Code opens a new chat and generates the `.agent.md` automatically.
 
 ## Sub-Skills (standalone)
 
 Each sub-skill in `topics/` is independently usable. Reference only the relevant file for focused guidance without loading the entire skill set.
+
+The repository now also includes a dedicated PR quality gate skill based on community PR review learnings:
+
+- `topics/11-pr-checklist.md` (what must not be changed in PRs, changelog format, fork-specific repochecker context, branch/release rules)
+
+## Development Runtime Recommendation
+
+For adapter development, use `@iobroker/dev-server` as the default live-test environment instead of a normal productive ioBroker instance:
+
+- Official project: https://github.com/ioBroker/dev-server
+- Added dedicated sub-skill: `topics/10-dev-server.md`
+- Workflow: run automated tests first, then validate runtime behavior via dev-server (`setup`, `watch`/`debug`)
 
 ## Optional: ioBroker RAG Service
 
@@ -45,7 +114,7 @@ The main agent (`SKILL.md`) supports integration with [iobroker-rag](https://git
 - Default endpoint: `http://localhost:8321`
 - The agent will ask once per session whether the RAG is available
 - Remote hosts are supported (configure the host:port when prompted)
-- Graceful fallback to sub-skills only if not available
+- Graceful fallback to sub-skills
 
 ## Content Sources
 

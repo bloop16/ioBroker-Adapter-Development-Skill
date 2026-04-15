@@ -209,3 +209,4 @@ npm run addToStable -- --name adaptername --version 1.0.0
 - [08-packaging.md](08-packaging.md) — io-package.json, package.json, npm publishing
 - [01-setup.md](01-setup.md) — Naming conventions
 - [02-objects-states.md](02-objects-states.md) — Object hierarchy and state roles
+- [11-pr-checklist.md](11-pr-checklist.md) — PR-specific guardrails and fork context checks
