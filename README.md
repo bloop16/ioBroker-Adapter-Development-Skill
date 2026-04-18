@@ -125,4 +125,12 @@ This skill incorporates content from:
 - [ioBroker.repositories README](https://github.com/ioBroker/ioBroker.repositories/blob/master/README.md) (types enum, latest/stable workflow)
 - [ioBroker AI Developer Guide](https://github.com/Jey-Cee/iobroker-ai-developer-guide)
 - [DrozmotiX ioBroker Copilot Instructions](https://github.com/DrozmotiX/ioBroker-Copilot-Instructions)
+- [ioBroker JSONConfig Schema](https://github.com/ioBroker/ioBroker.admin/blob/master/packages/jsonConfig/SCHEMA.md) — Feldtypen, Attribute und Validierungsregeln für `jsonConfig.json` (→ `04-admin-ui.md`)
+- [ioBroker Admin (GitHub)](https://github.com/ioBroker/ioBroker.admin) — Admin-Adapter Quellcode inkl. JSONConfig-Renderer (→ `04-admin-ui.md`)
+- [ioBroker Repochecker](https://github.com/ioBroker/ioBroker.repochecker) — Autoritative Quelle für alle W/E-Codes (→ alle Topics)
+- [ioBroker Translator](https://translator.iobroker.in/) — Auto-Übersetzung von i18n-Strings (→ `04-admin-ui.md`)
+- [ioBroker Create Adapter](https://github.com/ioBroker/create-adapter) — Offizielles Scaffolding-Tool (→ `01-setup.md`, `04-admin-ui.md`)
+- [ioBroker dev-server](https://github.com/ioBroker/dev-server) — Bevorzugte Live-Test-Umgebung für die Entwicklung (→ `10-dev-server.md`)
+- [Google Blockly Docs](https://developers.google.com/blockly) — Primärreferenz für Custom Blockly Blocks (→ `12-blockly.md`)
+- [ioBroker PR Checkliste (Eistee82)](https://gist.github.com/Eistee82/dfc37c94a138900caa049f555621eb9a) — Community PR-Guardrails (→ `11-pr-checklist.md`)
 
