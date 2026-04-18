@@ -19,7 +19,8 @@ skill/
     ├── 08-packaging.md               ← io-package.json, package.json, GitHub, Dependabot
     ├── 09-submission.md              ← Pre-submission checklist, AI mistakes, repository workflow
     ├── 10-dev-server.md              ← dev-server setup and live runtime testing workflow
-    └── 11-pr-checklist.md            ← PR guardrails, fork findings, release-safe workflow
+    ├── 11-pr-checklist.md            ← PR guardrails, fork findings, release-safe workflow
+    └── 12-blockly.md                 ← Blockly flags, blockly.js structure, generator checks
 ```
 
 ## Usage
@@ -98,6 +99,7 @@ Each sub-skill in `topics/` is independently usable. Reference only the relevant
 The repository now also includes a dedicated PR quality gate skill based on community PR review learnings:
 
 - `topics/11-pr-checklist.md` (what must not be changed in PRs, changelog format, fork-specific repochecker context, branch/release rules)
+- `topics/12-blockly.md` (modular reference/checklist for adapters with custom Blockly blocks)
 
 ## Development Runtime Recommendation
 

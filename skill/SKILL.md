@@ -83,6 +83,7 @@ Load the relevant sub-skill file(s) based on the current task. Each sub-skill is
 | Submission, review, checklist | `topics/09-submission.md` | Pre-submission checklist, AI mistakes, latest/stable workflow |
 | Dev environment with dev-server | `topics/10-dev-server.md` | setup, watch/debug workflow, profiles, live testing |
 | Pull request quality gate | `topics/11-pr-checklist.md` | PR do-not-change rules, fork findings, branch policy |
+| Blockly blocks integration | `topics/12-blockly.md` | required flags, blockly.js structure, generator validation |
 
 **When multiple topics are involved**, load all relevant sub-skills. For example, a new adapter creation involves `01-setup.md` + `02-objects-states.md` + `08-packaging.md` at minimum.
 

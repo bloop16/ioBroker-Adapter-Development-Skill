@@ -74,6 +74,8 @@ Online alternative: https://adapter-check.iobroker.in/
 
 For fork-based PRs, some checks can appear although upstream is correct. Re-verify after merge to upstream.
 
+Note: examples below were verified against common community practice as of 2026-04 and may evolve with repochecker updates.
+
 Typical examples from community practice:
 - `E0019` repository URL points to fork
 - `E4005` / `E4007` icon/meta URL in fork context
@@ -90,7 +92,15 @@ Treat these as context-dependent, not automatic ignores. Validate against the cu
 - `docs/de/README.md` is strongly recommended.
 - Update state/channel/device documentation when behavior changes.
 
-## 8) Release Responsibility
+## 8) Conditional Blockly Gate
+
+Apply only if the adapter provides custom Blockly blocks.
+
+- `io-package.json` has `common.blockly: true` and `common.messagebox: true`.
+- `admin/blockly.js` is present and included in npm package output.
+- Blockly block registration and generator output were checked in runtime.
+
+## 9) Release Responsibility
 
 - Maintainers execute release scripts after merge.
 - PR authors should not pre-release by changing versions/news fields in advance.
@@ -100,3 +110,4 @@ Treat these as context-dependent, not automatic ignores. Validate against the cu
 - [09-submission.md](09-submission.md) — Latest/stable repository submission workflow
 - [08-packaging.md](08-packaging.md) — io-package.json and package.json rules
 - [10-dev-server.md](10-dev-server.md) — Runtime live validation before release
+- [12-blockly.md](12-blockly.md) — Blockly-specific implementation checks
